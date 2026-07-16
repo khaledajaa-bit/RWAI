@@ -1,213 +1,336 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$RWAI — Real World Asset Infrastructure</title>
+<title>Voltex Protocol — Real-World Assets, Charged On-Chain</title>
+<meta name="description" content="Voltex Protocol vaults real-world assets and charges them into liquid on-chain tokens. $VOLTEX.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="ticker-tape">
-  <div class="ticker-track" id="tickerTrack"></div>
-</div>
+<div class="grain"></div>
 
-<div class="app">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand">
-      <span class="brand-mark"></span>
-      <span class="brand-name">RWAI</span>
-    </div>
-
-    <nav class="nav">
-      <a class="nav-item active" href="#"><span class="ico ico-grid"></span>Dashboard</a>
-      <a class="nav-item" href="#assets"><span class="ico ico-layers"></span>Assets</a>
-      <a class="nav-item" href="#vaults"><span class="ico ico-vault"></span>Vaults</a>
-      <a class="nav-item" href="#map"><span class="ico ico-globe"></span>Asset Map</a>
-      <a class="nav-item" href="#token"><span class="ico ico-coin"></span>Token</a>
-      <a class="nav-item" href="#docs"><span class="ico ico-doc"></span>Docs</a>
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M15.5 1L4 16H12.5L10.5 27L23 10H14.5L15.5 1Z" fill="url(#boltGrad)"/>
+        <defs>
+          <linearGradient id="boltGrad" x1="4" y1="1" x2="23" y2="27" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#B98CFF"/>
+            <stop offset="1" stop-color="#DD3EF0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>VOLTEX</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#vault">Vault</a>
+      <a href="#flow">How It Works</a>
+      <a href="#assets">Asset Classes</a>
+      <a href="#token">$VOLTEX</a>
+      <a href="#roadmap">Roadmap</a>
     </nav>
+    <a href="#token" class="btn btn-primary nav-cta">Get $VOLTEX</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="nav-mobile" id="navMobile">
+    <a href="#vault">Vault</a>
+    <a href="#flow">How It Works</a>
+    <a href="#assets">Asset Classes</a>
+    <a href="#token">$VOLTEX</a>
+    <a href="#roadmap">Roadmap</a>
+  </nav>
+</header>
 
-    <div class="sidebar-footer">
-      <div class="profile">
-        <div class="avatar">O</div>
-        <div>
-          <div class="profile-name">Operator</div>
-          <div class="profile-role">Verified Holder</div>
-        </div>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy reveal">
+      <p class="eyebrow">Real-World Asset Protocol</p>
+      <h1>Real assets, <span class="grad-text">charged</span> into liquid on-chain energy.</h1>
+      <p class="hero-sub">Voltex vaults real estate, treasuries, commodities and private credit, then discharges them as fully collateralized tokens your agents and wallets can actually use. No dilution. No black box. Just voltage.</p>
+      <div class="hero-actions">
+        <a href="#token" class="btn btn-primary">Get $VOLTEX</a>
+        <a href="#flow" class="btn btn-ghost">See how it charges →</a>
       </div>
-      <div class="theme-toggle" id="themeToggle">
-        <button class="theme-btn active" data-theme="light">Light</button>
-        <button class="theme-btn" data-theme="dark">Dark</button>
+      <div class="hero-meta">
+        <div class="pill"><span class="dot"></span> Live on Virtuals.io</div>
+        <div class="ticker-chip">$VOLTEX</div>
       </div>
     </div>
-  </aside>
 
-  <!-- MAIN -->
-  <main class="main">
+    <div class="hero-visual reveal">
+      <svg class="vault-dial" id="vaultDial" viewBox="0 0 440 440" role="img" aria-label="Voltex vault charge dial">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F1E4FF" stop-opacity="1"/>
+            <stop offset="35%" stop-color="#C168FF" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#B98CFF"/>
+            <stop offset="100%" stop-color="#EB3ED0"/>
+          </linearGradient>
+        </defs>
 
-    <header class="topbar">
-      <div>
-        <h1>Welcome,Operator</h1>
-        <p class="sub">Real World Assets, on-chain and verifiable.</p>
+        <circle cx="220" cy="220" r="205" class="dial-track"/>
+        <circle cx="220" cy="220" r="205" class="dial-progress" id="dialProgress"/>
+
+        <g class="segments">
+          <circle cx="220" cy="220" r="168" class="dial-track thin"/>
+        </g>
+
+        <circle cx="220" cy="220" r="120" fill="url(#coreGlow)" class="core-glow"/>
+        <circle cx="220" cy="220" r="86" class="core-ring"/>
+
+        <g class="bolt-icon" transform="translate(220 220)">
+          <path d="M8 -46L-22 8H-2L-8 46L22 -8H2L8 -46Z" fill="url(#ringGrad)"/>
+        </g>
+
+        <!-- orbiting asset nodes -->
+        <g class="orbit-group">
+          <g class="orbit-node" data-angle="0"><circle r="5"/></g>
+          <g class="orbit-node" data-angle="90"><circle r="5"/></g>
+          <g class="orbit-node" data-angle="180"><circle r="5"/></g>
+          <g class="orbit-node" data-angle="270"><circle r="5"/></g>
+        </g>
+      </svg>
+      <div class="dial-caption">
+        <span class="dial-figure" id="dialFigure">0%</span>
+        <span class="dial-label">Vault Collateralization</span>
       </div>
-      <div class="topbar-actions">
-        <button class="icon-btn" aria-label="Search">⌕</button>
-        <button class="icon-btn" aria-label="Notifications">◔</button>
-        <button class="btn-primary" id="launchBtn">Launch on virtuals.io</button>
+    </div>
+  </div>
+
+  <div class="stat-bar reveal">
+    <div class="stat"><span class="stat-num" data-count="112.4" data-suffix="M" data-prefix="$">$0M</span><span class="stat-label">Assets Vaulted</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num" data-count="4" data-suffix="">0</span><span class="stat-label">Asset Classes Live</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num" data-count="100" data-suffix="%">0%</span><span class="stat-label">On-Chain Backing</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num" data-count="0" data-suffix=" days" data-prefix="T-">0 days</span><span class="stat-label">Since Genesis Charge</span></div>
+  </div>
+</section>
+
+<!-- WHAT IS VOLTEX -->
+<section class="section" id="vault">
+  <div class="section-inner split">
+    <div class="reveal">
+      <p class="eyebrow">The Vault</p>
+      <h2>A vault, not a promise.</h2>
+      <p class="body-lg">Most "RWA" tokens are IOUs pointing at a spreadsheet. Voltex is different: every token in circulation is discharged from a real asset sitting in a custodied vault, verified on a schedule, and provable on-chain in real time.</p>
+    </div>
+    <div class="feature-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">⚡</div>
+        <h3>Charge before mint</h3>
+        <p>An asset is deposited and verified before a single token is charged into circulation — never the other way around.</p>
       </div>
-    </header>
-
-    <!-- STAT CARDS -->
-    <section class="stat-grid">
-      <div class="card stat-card">
-        <div class="stat-head">
-          <span class="stat-label">Total Value Locked</span>
-          <span class="pill pill-up">+4.2%</span>
-        </div>
-        <div class="stat-value" data-count="128.4" data-suffix="M" data-prefix="$">$0M</div>
-        <canvas class="spark" data-spark="tvl" width="220" height="48"></canvas>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">🔒</div>
+        <h3>Custodied, not custom</h3>
+        <p>Assets sit with regulated third-party custodians. Voltex never touches the underlying directly.</p>
       </div>
-
-      <div class="card stat-card">
-        <div class="stat-head">
-          <span class="stat-label">Assets Tokenized</span>
-          <span class="pill pill-up">+128</span>
-        </div>
-        <div class="stat-value" data-count="4732" data-suffix="">0</div>
-        <canvas class="spark" data-spark="assets" width="220" height="48"></canvas>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">📡</div>
+        <h3>Provable, always</h3>
+        <p>Attestations publish on-chain on a fixed cadence, so backing is checkable, not just claimed.</p>
       </div>
-
-      <div class="card stat-card">
-        <div class="stat-head">
-          <span class="stat-label">Holders</span>
-          <span class="pill pill-up">+3.8%</span>
-        </div>
-        <div class="stat-value" data-count="18920" data-suffix="">0</div>
-        <canvas class="spark" data-spark="holders" width="220" height="48"></canvas>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">🤖</div>
+        <h3>Agent-ready</h3>
+        <p>Built for the Virtuals.io ecosystem — autonomous agents can hold, route, and settle in $VOLTEX natively.</p>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="card stat-card">
-        <div class="stat-head">
-          <span class="stat-label">$RWAI Price</span>
-          <span class="pill pill-down">-1.1%</span>
-        </div>
-        <div class="stat-value" data-count="0.0842" data-decimals="4" data-prefix="$">$0.0000</div>
-        <canvas class="spark" data-spark="price" width="220" height="48"></canvas>
+<!-- HOW IT WORKS -->
+<section class="section section-alt" id="flow">
+  <div class="section-inner">
+    <p class="eyebrow center">How It Works</p>
+    <h2 class="center">From physical asset to charged token.</h2>
+    <p class="body-lg center max-w">A fixed four-step circuit. Every unit of $VOLTEX in circulation has passed through all four.</p>
+
+    <div class="flow-track reveal">
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <span class="flow-index">01</span>
+        <h3>Deposit</h3>
+        <p>A real-world asset — property, treasury bill, commodity, or credit note — is placed with a licensed custodian.</p>
       </div>
-    </section>
-
-    <!-- MIDDLE GRID -->
-    <section class="mid-grid">
-
-      <div class="card portfolio-card" id="assets">
-        <div class="card-title-row">
-          <h2>Asset Portfolio</h2>
-          <span class="muted">Allocation by class</span>
-        </div>
-        <ul class="alloc-list">
-          <li>
-            <div class="alloc-top"><span>Real Estate</span><span>42%</span></div>
-            <div class="alloc-bar"><div class="alloc-fill" style="--w:42%; --c:var(--accent)"></div></div>
-          </li>
-          <li>
-            <div class="alloc-top"><span>Invoice Financing</span><span>27%</span></div>
-            <div class="alloc-bar"><div class="alloc-fill" style="--w:27%; --c:var(--accent-2)"></div></div>
-          </li>
-          <li>
-            <div class="alloc-top"><span>Commodities</span><span>18%</span></div>
-            <div class="alloc-bar"><div class="alloc-fill" style="--w:18%; --c:var(--accent-3)"></div></div>
-          </li>
-          <li>
-            <div class="alloc-top"><span>Private Credit</span><span>13%</span></div>
-            <div class="alloc-bar"><div class="alloc-fill" style="--w:13%; --c:var(--muted-line)"></div></div>
-          </li>
-        </ul>
+      <div class="flow-step">
+        <span class="flow-index">02</span>
+        <h3>Verify</h3>
+        <p>Independent auditors confirm ownership, valuation, and legal title before anything is charged.</p>
       </div>
-
-      <div class="card token-card" id="token">
-        <div class="card-title-row">
-          <h2>$RWAI Token Info</h2>
-          <span class="tag">Base · virtuals.io</span>
-        </div>
-        <div class="token-row">
-          <span class="token-key">Contract</span>
-          <div class="token-address">
-            <span id="contractAddr">0xA1b2...RWAI9f</span>
-            <button class="copy-btn" id="copyBtn">Copy</button>
-          </div>
-        </div>
-        <div class="token-row"><span class="token-key">Total Supply</span><span class="token-val">1,000,000,000 RWAI</span></div>
-        <div class="token-row"><span class="token-key">Bonding Progress</span><span class="token-val">64%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:64%"></div></div>
-        <a class="btn-outline" href="https://app.virtuals.io" target="_blank" rel="noopener">View on virtuals.io</a>
+      <div class="flow-step">
+        <span class="flow-index">03</span>
+        <h3>Charge</h3>
+        <p>The vault mints a 1:1 backed token representing a live claim on the underlying asset.</p>
       </div>
-
-      <div class="card map-card" id="map">
-        <div class="card-title-row">
-          <h2>Global Asset Network</h2>
-          <span class="muted">Live locations</span>
-        </div>
-        <div class="map-wrap" id="mapWrap"></div>
+      <div class="flow-step">
+        <span class="flow-index">04</span>
+        <h3>Circulate</h3>
+        <p>Tokens move freely across wallets and agents, redeemable back to the vault at any time.</p>
       </div>
+    </div>
+  </div>
+</section>
 
-    </section>
+<!-- ASSET CLASSES -->
+<section class="section" id="assets">
+  <div class="section-inner">
+    <p class="eyebrow center">Asset Classes</p>
+    <h2 class="center">Four vaults. One circuit.</h2>
 
-    <!-- BOTTOM GRID -->
-    <section class="bottom-grid">
+    <div class="asset-grid reveal">
+      <div class="asset-card">
+        <span class="asset-tag">Vault A</span>
+        <h3>Real Estate</h3>
+        <p>Income-producing property, fractionalized and charged into transferable claims.</p>
+      </div>
+      <div class="asset-card">
+        <span class="asset-tag">Vault B</span>
+        <h3>Treasury Bills</h3>
+        <p>Short-duration sovereign debt, held for stable, low-volatility backing.</p>
+      </div>
+      <div class="asset-card">
+        <span class="asset-tag">Vault C</span>
+        <h3>Commodities</h3>
+        <p>Physically-settled metals and energy contracts, stored with audited custodians.</p>
+      </div>
+      <div class="asset-card">
+        <span class="asset-tag">Vault D</span>
+        <h3>Private Credit</h3>
+        <p>Underwritten invoice and receivables financing, yield-bearing by design.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="card gauge-card">
-        <div class="card-title-row">
-          <h2>Collateralization Ratio</h2>
-        </div>
-        <div class="gauge-wrap">
-          <svg viewBox="0 0 200 120" class="gauge-svg">
-            <path d="M 20 100 A 80 80 0 0 1 180 100" class="gauge-track"/>
-            <path d="M 20 100 A 80 80 0 0 1 180 100" class="gauge-fill" id="gaugeFill"/>
+<!-- TOKEN -->
+<section class="section section-alt" id="token">
+  <div class="section-inner split reverse">
+    <div class="token-card reveal">
+      <div class="token-card-top">
+        <div class="token-symbol">
+          <svg width="40" height="40" viewBox="0 0 28 28" fill="none">
+            <path d="M15.5 1L4 16H12.5L10.5 27L23 10H14.5L15.5 1Z" fill="url(#boltGrad2)"/>
+            <defs>
+              <linearGradient id="boltGrad2" x1="4" y1="1" x2="23" y2="27" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#B98CFF"/>
+                <stop offset="1" stop-color="#DD3EF0"/>
+              </linearGradient>
+            </defs>
           </svg>
-          <div class="gauge-value">
-            <span class="gauge-number" id="gaugeNumber">0%</span>
-            <span class="gauge-label">Current · Target 120%</span>
+          <div>
+            <p class="token-name">Voltex Protocol</p>
+            <p class="token-ticker">$VOLTEX</p>
           </div>
         </div>
+        <span class="badge">Virtuals.io</span>
       </div>
-
-      <div class="card feature-card">
-        <div class="card-title-row">
-          <h2>Featured Asset</h2>
-          <span class="pill pill-up">Verified</span>
-        </div>
-        <div class="feature-body">
-          <div class="feature-art">
-            <svg viewBox="0 0 220 140" class="warehouse-svg">
-              <rect x="10" y="60" width="200" height="70" rx="6" class="wh-body"/>
-              <polygon points="10,60 110,20 210,60" class="wh-roof"/>
-              <rect x="30" y="80" width="34" height="50" class="wh-door"/>
-              <rect x="150" y="80" width="34" height="50" class="wh-door"/>
-              <rect x="90" y="85" width="30" height="24" class="wh-window"/>
-            </svg>
-          </div>
-          <div class="feature-info">
-            <h3>Warehouse Facility #A-104</h3>
-            <p class="muted">Logistics hub · Surabaya, ID</p>
-            <div class="feature-stats">
-              <div><span class="fs-label">Est. Value</span><span class="fs-val">$2.4M</span></div>
-              <div><span class="fs-label">Yield APY</span><span class="fs-val">11.6%</span></div>
-              <div><span class="fs-label">Status</span><span class="fs-val ok">Verified</span></div>
-            </div>
-          </div>
-        </div>
+      <div class="token-row"><span>Network</span><span>Base</span></div>
+      <div class="token-row"><span>Standard</span><span>ERC-20</span></div>
+      <div class="token-row"><span>Backing</span><span>100% RWA-collateralized</span></div>
+      <div class="token-row"><span>Contract</span><span class="mono">0x••••••••••••••••••••••••••••••••••••</span></div>
+      <a href="#" class="btn btn-primary full">Trade $VOLTEX</a>
+      <div class="token-links">
+        <a href="#">Website</a><span>·</span><a href="#">X / Twitter</a><span>·</span><a href="#">Telegram</a><span>·</span><a href="#">Docs</a>
       </div>
+    </div>
 
-    </section>
+    <div class="reveal">
+      <p class="eyebrow">The Token</p>
+      <h2>$VOLTEX is the current, not the promise.</h2>
+      <p class="body-lg">Holding $VOLTEX means holding a live claim on the vault's underlying assets — not a governance token, not a points system. It moves through the Virtuals.io agent economy the same way electricity moves through a circuit: fast, measurable, and always tied back to source.</p>
+      <ul class="check-list">
+        <li>Redeemable against real vaulted assets</li>
+        <li>No pre-mint beyond verified deposits</li>
+        <li>Transparent, on-chain attestation feed</li>
+        <li>Native support for autonomous agent settlement</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-  </main>
-</div>
+<!-- ROADMAP -->
+<section class="section" id="roadmap">
+  <div class="section-inner">
+    <p class="eyebrow center">Roadmap</p>
+    <h2 class="center">The circuit ahead.</h2>
+
+    <div class="roadmap-track reveal">
+      <div class="roadmap-item">
+        <span class="roadmap-phase">Phase 01</span>
+        <h3>Genesis Charge</h3>
+        <p>Vault A (Real Estate) opens. $VOLTEX launches on Virtuals.io.</p>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-phase">Phase 02</span>
+        <h3>Second Vault</h3>
+        <p>Treasury Bills vault opens. First public attestation feed goes live.</p>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-phase">Phase 03</span>
+        <h3>Full Circuit</h3>
+        <p>Commodities and Private Credit vaults open. Cross-vault redemption enabled.</p>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-phase">Phase 04</span>
+        <h3>Agent Integration</h3>
+        <p>Native settlement tooling ships for autonomous agents across the Virtuals.io network.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner cta-inner reveal">
+    <h2>Plug into the vault.</h2>
+    <p class="body-lg">Real assets. Real backing. Real voltage.</p>
+    <div class="hero-actions center">
+      <a href="#token" class="btn btn-primary">Get $VOLTEX</a>
+      <a href="#" class="btn btn-ghost">Read the Docs →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="section-inner footer-inner">
+    <a href="#top" class="logo">
+      <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+        <path d="M15.5 1L4 16H12.5L10.5 27L23 10H14.5L15.5 1Z" fill="url(#boltGrad3)"/>
+        <defs>
+          <linearGradient id="boltGrad3" x1="4" y1="1" x2="23" y2="27" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#B98CFF"/>
+            <stop offset="1" stop-color="#DD3EF0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>VOLTEX</span>
+    </a>
+    <div class="footer-links">
+      <a href="#">Website</a>
+      <a href="#">X / Twitter</a>
+      <a href="#">Telegram</a>
+      <a href="#">Docs</a>
+    </div>
+    <p class="footer-copy">© 2026 Voltex Protocol. $VOLTEX carries risk like any digital asset — verify contracts yourself.</p>
+  </div>
+</footer>
 
 <script src="script.js"></script>
 </body>
