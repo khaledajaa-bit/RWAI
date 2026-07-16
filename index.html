@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$RWAI — Real World Asset Infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="ticker-tape">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">RWAI</span>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item active" href="#"><span class="ico ico-grid"></span>Dashboard</a>
+      <a class="nav-item" href="#assets"><span class="ico ico-layers"></span>Assets</a>
+      <a class="nav-item" href="#vaults"><span class="ico ico-vault"></span>Vaults</a>
+      <a class="nav-item" href="#map"><span class="ico ico-globe"></span>Asset Map</a>
+      <a class="nav-item" href="#token"><span class="ico ico-coin"></span>Token</a>
+      <a class="nav-item" href="#docs"><span class="ico ico-doc"></span>Docs</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="profile">
+        <div class="avatar">O</div>
+        <div>
+          <div class="profile-name">Operator</div>
+          <div class="profile-role">Verified Holder</div>
+        </div>
+      </div>
+      <div class="theme-toggle" id="themeToggle">
+        <button class="theme-btn active" data-theme="light">Light</button>
+        <button class="theme-btn" data-theme="dark">Dark</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="topbar">
+      <div>
+        <h1>Selamat datang, Operator</h1>
+        <p class="sub">Real World Assets, on-chain and verifiable.</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" aria-label="Search">⌕</button>
+        <button class="icon-btn" aria-label="Notifications">◔</button>
+        <button class="btn-primary" id="launchBtn">Launch on virtuals.io</button>
+      </div>
+    </header>
+
+    <!-- STAT CARDS -->
+    <section class="stat-grid">
+      <div class="card stat-card">
+        <div class="stat-head">
+          <span class="stat-label">Total Value Locked</span>
+          <span class="pill pill-up">+4.2%</span>
+        </div>
+        <div class="stat-value" data-count="128.4" data-suffix="M" data-prefix="$">$0M</div>
+        <canvas class="spark" data-spark="tvl" width="220" height="48"></canvas>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-head">
+          <span class="stat-label">Assets Tokenized</span>
+          <span class="pill pill-up">+128</span>
+        </div>
+        <div class="stat-value" data-count="4732" data-suffix="">0</div>
+        <canvas class="spark" data-spark="assets" width="220" height="48"></canvas>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-head">
+          <span class="stat-label">Holders</span>
+          <span class="pill pill-up">+3.8%</span>
+        </div>
+        <div class="stat-value" data-count="18920" data-suffix="">0</div>
+        <canvas class="spark" data-spark="holders" width="220" height="48"></canvas>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-head">
+          <span class="stat-label">$RWAI Price</span>
+          <span class="pill pill-down">-1.1%</span>
+        </div>
+        <div class="stat-value" data-count="0.0842" data-decimals="4" data-prefix="$">$0.0000</div>
+        <canvas class="spark" data-spark="price" width="220" height="48"></canvas>
+      </div>
+    </section>
+
+    <!-- MIDDLE GRID -->
+    <section class="mid-grid">
+
+      <div class="card portfolio-card" id="assets">
+        <div class="card-title-row">
+          <h2>Asset Portfolio</h2>
+          <span class="muted">Allocation by class</span>
+        </div>
+        <ul class="alloc-list">
+          <li>
+            <div class="alloc-top"><span>Real Estate</span><span>42%</span></div>
+            <div class="alloc-bar"><div class="alloc-fill" style="--w:42%; --c:var(--accent)"></div></div>
+          </li>
+          <li>
+            <div class="alloc-top"><span>Invoice Financing</span><span>27%</span></div>
+            <div class="alloc-bar"><div class="alloc-fill" style="--w:27%; --c:var(--accent-2)"></div></div>
+          </li>
+          <li>
+            <div class="alloc-top"><span>Commodities</span><span>18%</span></div>
+            <div class="alloc-bar"><div class="alloc-fill" style="--w:18%; --c:var(--accent-3)"></div></div>
+          </li>
+          <li>
+            <div class="alloc-top"><span>Private Credit</span><span>13%</span></div>
+            <div class="alloc-bar"><div class="alloc-fill" style="--w:13%; --c:var(--muted-line)"></div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card token-card" id="token">
+        <div class="card-title-row">
+          <h2>$RWAI Token Info</h2>
+          <span class="tag">Base · virtuals.io</span>
+        </div>
+        <div class="token-row">
+          <span class="token-key">Contract</span>
+          <div class="token-address">
+            <span id="contractAddr">0xA1b2...RWAI9f</span>
+            <button class="copy-btn" id="copyBtn">Copy</button>
+          </div>
+        </div>
+        <div class="token-row"><span class="token-key">Total Supply</span><span class="token-val">1,000,000,000 RWAI</span></div>
+        <div class="token-row"><span class="token-key">Bonding Progress</span><span class="token-val">64%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:64%"></div></div>
+        <a class="btn-outline" href="https://app.virtuals.io" target="_blank" rel="noopener">View on virtuals.io</a>
+      </div>
+
+      <div class="card map-card" id="map">
+        <div class="card-title-row">
+          <h2>Global Asset Network</h2>
+          <span class="muted">Live locations</span>
+        </div>
+        <div class="map-wrap" id="mapWrap"></div>
+      </div>
+
+    </section>
+
+    <!-- BOTTOM GRID -->
+    <section class="bottom-grid">
+
+      <div class="card gauge-card">
+        <div class="card-title-row">
+          <h2>Collateralization Ratio</h2>
+        </div>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 200 120" class="gauge-svg">
+            <path d="M 20 100 A 80 80 0 0 1 180 100" class="gauge-track"/>
+            <path d="M 20 100 A 80 80 0 0 1 180 100" class="gauge-fill" id="gaugeFill"/>
+          </svg>
+          <div class="gauge-value">
+            <span class="gauge-number" id="gaugeNumber">0%</span>
+            <span class="gauge-label">Current · Target 120%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card feature-card">
+        <div class="card-title-row">
+          <h2>Featured Asset</h2>
+          <span class="pill pill-up">Verified</span>
+        </div>
+        <div class="feature-body">
+          <div class="feature-art">
+            <svg viewBox="0 0 220 140" class="warehouse-svg">
+              <rect x="10" y="60" width="200" height="70" rx="6" class="wh-body"/>
+              <polygon points="10,60 110,20 210,60" class="wh-roof"/>
+              <rect x="30" y="80" width="34" height="50" class="wh-door"/>
+              <rect x="150" y="80" width="34" height="50" class="wh-door"/>
+              <rect x="90" y="85" width="30" height="24" class="wh-window"/>
+            </svg>
+          </div>
+          <div class="feature-info">
+            <h3>Warehouse Facility #A-104</h3>
+            <p class="muted">Logistics hub · Surabaya, ID</p>
+            <div class="feature-stats">
+              <div><span class="fs-label">Est. Value</span><span class="fs-val">$2.4M</span></div>
+              <div><span class="fs-label">Yield APY</span><span class="fs-val">11.6%</span></div>
+              <div><span class="fs-label">Status</span><span class="fs-val ok">Verified</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
